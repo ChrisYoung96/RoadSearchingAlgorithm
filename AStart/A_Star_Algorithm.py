@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = 'ChrisYoung'
+
 from AStart.NodeItem import Node
 import numpy as np
 
@@ -98,14 +102,14 @@ class AStarAlgorithm:
         while node:
             temp.append((node.x, node.y))
             node = node.parent
-        for i in range(len(temp) - 1,-1, -1):
+        for i in range(len(temp) - 1, -1, -1):
             self.path.append(temp[i])
 
     # 根据路径生成动作序列
     def make_action_sequence(self):
 
         if len(self.path) > 1:
-            for i in range(len(self.path)-1):
+            for i in range(len(self.path) - 1):
                 x1 = self.path[i][0]
                 y1 = self.path[i][1]
                 x2 = self.path[i + 1][0]
@@ -121,9 +125,9 @@ class AStarAlgorithm:
 
     # 计算路径并生成动作序列
     def find_path(self):
-        if not self.is_valid_coordinate(self.s_x,self.s_y):
+        if not self.is_valid_coordinate(self.s_x, self.s_y):
             return False
-        if not self.is_valid_coordinate(self.e_x,self.e_y):
+        if not self.is_valid_coordinate(self.e_x, self.e_y):
             return False
         node = Node(None, self.s_x, self.s_y, 0)
         while True:
@@ -137,5 +141,3 @@ class AStarAlgorithm:
                 return True
             self.close.append(node)
             del self.open[index]
-
-

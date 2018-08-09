@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = 'ChrisYoung'
+
+
 from AStart.A_Star_Algorithm import AStarAlgorithm
 import Map_Maker as MapMaker
 
