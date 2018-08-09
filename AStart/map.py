@@ -1,17 +1,13 @@
 from AStart.A_Star_Algorithm import AStarAlgorithm
-import numpy as np
+import Map_Maker as MapMaker
 
-map = np.array([[0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 1, 0, 0, 0],
-                [0, 0, 0, 1, 0, 0, 0],
-                [0, 0, 0, 1, 0, 0, 0],
-                [0, 1, 0, 1, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0]])
 
-star = AStarAlgorithm(1, 3, 5, 4, 7, 6, map)
+my_map,width,height = MapMaker.load_map("map1")
 
-star.find_path()
 
-print(star.map)
-print(star.path)
-print(star.actions)
+star = AStarAlgorithm(0, 0, 3, 2, width, height, my_map)
+
+if star.find_path():
+    print(star.map)
+    print(star.path)
+    print(star.actions)

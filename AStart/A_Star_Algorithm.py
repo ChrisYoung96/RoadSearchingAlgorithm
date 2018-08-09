@@ -121,15 +121,21 @@ class AStarAlgorithm:
 
     # 计算路径并生成动作序列
     def find_path(self):
+        if not self.is_valid_coordinate(self.s_x,self.s_y):
+            return False
+        if not self.is_valid_coordinate(self.e_x,self.e_y):
+            return False
         node = Node(None, self.s_x, self.s_y, 0)
         while True:
             self.extend_round(node)
             if not self.open:
-                return
+                return False
             index, node = self.get_min_node()
             if self.is_end(node):
                 self.make_path(node)
                 self.make_action_sequence()
-                return
+                return True
             self.close.append(node)
             del self.open[index]
+
+
