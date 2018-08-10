@@ -7,8 +7,7 @@ import os
 
 
 def make_map(new_map, map_name):
-    path = os.getcwd()
-    dir = path + "\\Gamemap\\" + map_name + ".json"
+    dir = "Gamemap\\" + map_name + ".json"
     f = open(dir, "wb")
     width = len(new_map[0])
     height = len(new_map)
@@ -19,7 +18,7 @@ def make_map(new_map, map_name):
 
 
 def load_map(map_name):
-    path = "..\\Gamemap\\" + map_name + ".json"
+    path = "Gamemap\\" + map_name + ".json"
     f = open(path, "rb")
     game_map = pickle.load(f)
     width = pickle.load(f)
