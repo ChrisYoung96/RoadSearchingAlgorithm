@@ -65,6 +65,10 @@ class BFS:
                     self.actions.append('up')
 
     def find_path(self):
+        if not self.is_valid_coordinate(self.s_x,self.s_y):
+            return False
+        if not self.is_valid_coordinate(self.e_x,self.e_y):
+            return False
         cur_node = Node(self.s_x, self.s_y, None)
         q = queue.Queue()
         xs = (0, 0, -1, 1)
