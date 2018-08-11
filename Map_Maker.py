@@ -3,7 +3,6 @@
 __author__ = 'ChrisYoung'
 
 import pickle
-import os
 
 
 def make_map(new_map, map_name):
@@ -18,7 +17,7 @@ def make_map(new_map, map_name):
 
 
 def load_map(map_name):
-    path = "Gamemap\\" + map_name + ".json"
+    path = "..\\Gamemap\\" + map_name + ".json"
     f = open(path, "rb")
     game_map = pickle.load(f)
     width = pickle.load(f)

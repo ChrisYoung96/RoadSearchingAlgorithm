@@ -4,16 +4,11 @@
 # @Author  : ChrisYoung
 
 from BFS.BFSAlgorithm import BFS
-import numpy as np
+import Map_Maker as MapMaker
 
-m = np.array([
-    [0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 1, 1, 0, 0],
-    [0, 1, 0, 1, 0, 1, 0],
-    [1, 0, 0, 0, 0, 0, 0]
-])
+my_map, width, height = MapMaker.load_map("map1")
 
 if __name__ == "__main__":
-    bfs = BFS(0, 0, 6, 3, 7, 4, m)
+    bfs = BFS(0, 0, 6, 3, width, height, my_map)
     if bfs.find_path():
         print(bfs.actions)

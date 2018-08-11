@@ -4,16 +4,12 @@
 # @Author  : ChrisYoung
 
 from Dijkstra.DijkstraAlgorithm import Dijkstra
-import numpy as np
 
-m = np.array([
-    [0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 1, 1, 0, 0],
-    [0, 1, 0, 1, 0, 1, 0],
-    [1, 0, 0, 0, 0, 0, 0]
-])
+import Map_Maker as MapMaker
+
+my_map, width, height = MapMaker.load_map("map1")
 
 if __name__ == "__main__":
-    D = Dijkstra(0, 0, 6, 3, 7, 4, m)
+    D = Dijkstra(0, 0, 6, 3, width, height, my_map)
     if D.find_path():
         print(D.actions)

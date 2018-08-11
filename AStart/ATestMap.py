@@ -4,7 +4,7 @@ __author__ = 'ChrisYoung'
 
 
 from AStart.A_Star_Algorithm import AStarAlgorithm
-from AStart import Map_Maker as MapMaker
+import Map_Maker as MapMaker
 
 my_map,width,height = MapMaker.load_map("map1")
 
