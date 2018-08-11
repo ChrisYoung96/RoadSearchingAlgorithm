@@ -23,23 +23,21 @@ class BFS:
         self.path = []  # 路径序列
         self.actions = []  # 动作序列
 
-    def is_valid_coordinate(self, x, y):
+    def __is_valid_coordinate(self, x, y):
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
             return False
         return self.map[y, x] == 0
 
-    def is_visited(self, node):
+    def __is_visited(self, node):
         if not self.visited:
             for item in self.visited:
                 return item.is_same_node(node)
         return False
 
-    def is_the_end(self, node):
+    def __is_the_end(self, node):
         return self.e_x == node.x and self.e_y == node.y
 
-
-
-    def make_path(self, node):
+    def __make_path(self, node):
         temp = []
         while node:
             temp.append((node.x, node.y))
@@ -47,7 +45,7 @@ class BFS:
         for i in range(len(temp) - 1, -1, -1):
             self.path.append(temp[i])
 
-    def make_action_sequence(self):
+    def __make_action_sequence(self):
 
         if len(self.path) > 1:
             for i in range(len(self.path) - 1):
@@ -65,9 +63,9 @@ class BFS:
                     self.actions.append('up')
 
     def find_path(self):
-        if not self.is_valid_coordinate(self.s_x,self.s_y):
+        if not self.__is_valid_coordinate(self.s_x, self.s_y):
             return False
-        if not self.is_valid_coordinate(self.e_x,self.e_y):
+        if not self.__is_valid_coordinate(self.e_x, self.e_y):
             return False
         cur_node = Node(self.s_x, self.s_y, None)
         q = queue.Queue()
@@ -77,14 +75,14 @@ class BFS:
         while not q.empty():
             cur_node = q.get()
             self.visited.append(cur_node)
-            if self.is_the_end(cur_node):
-                self.make_path(cur_node)
-                self.make_action_sequence()
+            if self.__is_the_end(cur_node):
+                self.__make_path(cur_node)
+                self.__make_action_sequence()
                 return True
             for x, y in zip(xs, ys):
                 new_x = cur_node.x + x
                 new_y = cur_node.y + y
-                if not self.is_valid_coordinate(new_x, new_y):
+                if not self.__is_valid_coordinate(new_x, new_y):
                     continue
                 new_node = Node(new_x, new_y, cur_node)
                 q.put(new_node)

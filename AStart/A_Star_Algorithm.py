@@ -28,32 +28,32 @@ class AStarAlgorithm:
         self.actions = []  # 动作序列
 
     # 验证坐标是否合法以及是否可走
-    def is_valid_coordinate(self, x, y):
+    def __is_valid_coordinate(self, x, y):
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
             return False
         return self.map[y, x] == 0
 
     # 获得当前坐标距离起点的距离G
-    def get_g(self, x1, y1, x2, y2):
+    def __get_g(self, x1, y1, x2, y2):
         if x1 == x2 or y1 == y2:
             return 1
 
     # 判断结点是否在close列表中
-    def node_in_close(self, node):
+    def __node_in_close(self, node):
         for item in self.close:
             if node.x == item.x and node.y == item.y:
                 return True
             return False
 
     # 判断结点是否在open列表中，如果在，返回结点索引
-    def node_in_open(self, node):
+    def __node_in_open(self, node):
         for index, item in enumerate(self.open):
             if node.x == item.x and node.y == item.y:
                 return index
         return -1
 
     # 探索当前结点四周的结点并将未走过的结点添加到open列表中
-    def extend_round(self, cur_node):
+    def __extend_round(self, cur_node):
         # 四个方向向量，上下左右
         xs = (0, 0, -1, 1)
         ys = (-1, 1, 0, 0)
@@ -61,13 +61,13 @@ class AStarAlgorithm:
             new_x = x + cur_node.x
             new_y = y + cur_node.y
 
-            if not self.is_valid_coordinate(new_x, new_y):  # 对当前结点四周的结点，判断是否合法，不合法则舍弃
+            if not self.__is_valid_coordinate(new_x, new_y):  # 对当前结点四周的结点，判断是否合法，不合法则舍弃
                 continue
-            new_G = cur_node.G + self.get_g(cur_node.x, cur_node.y, new_x, new_y)  # 计算四周结点到起点的距离
+            new_G = cur_node.G + self.__get_g(cur_node.x, cur_node.y, new_x, new_y)  # 计算四周结点到起点的距离
             new_node = Node(cur_node, new_x, new_y, new_G)  # 创建结点
-            if self.node_in_close(new_node):  # 如果该结点已经在close列表中，舍弃
+            if self.__node_in_close(new_node):  # 如果该结点已经在close列表中，舍弃
                 continue
-            index = self.node_in_open(new_node)  # 否则判断该节点是否在open列表中
+            index = self.__node_in_open(new_node)  # 否则判断该节点是否在open列表中
             if index != -1:  # 如果在
                 if self.open[index].G > new_node.G:  # 若因当前结点导致该节点到起点的距离更短
                     self.open[index].parent = cur_node  # 更新该节点的父结点
@@ -76,20 +76,20 @@ class AStarAlgorithm:
             self.open.append(new_node)  # 若未探索且可走，加入open列表
 
     # 判断是否到终点
-    def is_end(self, node):
+    def __is_end(self, node):
         return node.x == self.e_x and node.y == self.e_y
 
     # 采用“曼哈顿距离方法”计算H估计值，并计算F
-    def get_f(self, node):
+    def __get_f(self, node):
         return node.G + abs(self.e_x - node.x) + abs(self.e_y - node.y)
 
     # 从当前结点的四周可走结点中选取最优的结点，作为下一步的方向
-    def get_min_node(self):
+    def __get_min_node(self):
         min_f_node = None
         min_f = 100000
         min_index = -1
         for index, item in enumerate(self.open):
-            f = self.get_f(item)
+            f = self.__get_f(item)
             if f <= min_f:
                 min_f_node = item
                 min_f = f
@@ -97,7 +97,7 @@ class AStarAlgorithm:
         return min_index, min_f_node
 
     # 回溯法生成路径
-    def make_path(self, node):
+    def __make_path(self, node):
         temp = []
         while node:
             temp.append((node.x, node.y))
@@ -106,7 +106,7 @@ class AStarAlgorithm:
             self.path.append(temp[i])
 
     # 根据路径生成动作序列
-    def make_action_sequence(self):
+    def __make_action_sequence(self):
 
         if len(self.path) > 1:
             for i in range(len(self.path) - 1):
@@ -125,19 +125,19 @@ class AStarAlgorithm:
 
     # 计算路径并生成动作序列
     def find_path(self):
-        if not self.is_valid_coordinate(self.s_x, self.s_y):
+        if not self.__is_valid_coordinate(self.s_x, self.s_y):
             return False
-        if not self.is_valid_coordinate(self.e_x, self.e_y):
+        if not self.__is_valid_coordinate(self.e_x, self.e_y):
             return False
         node = Node(None, self.s_x, self.s_y, 0)
         while True:
-            self.extend_round(node)
+            self.__extend_round(node)
             if not self.open:
                 return False
-            index, node = self.get_min_node()
-            if self.is_end(node):
-                self.make_path(node)
-                self.make_action_sequence()
+            index, node = self.__get_min_node()
+            if self.__is_end(node):
+                self.__make_path(node)
+                self.__make_action_sequence()
                 return True
             self.close.append(node)
             del self.open[index]
