@@ -109,6 +109,7 @@ class Dijkstra:
         if not self.is_valid_coordinate(self.e_x, self.e_y):
             return False
         node = Node(self.s_x, self.s_y, None, 0)
+        self.visited.append(node)
         while True:
             self.extend_around(node)
             if not self.open:
