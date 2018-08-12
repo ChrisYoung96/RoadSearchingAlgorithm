@@ -6,8 +6,6 @@ import numpy as np
 import queue
 from BFS.BNode import Node
 
-INFINIY = 1000000
-
 
 class BFS:
     def __init__(self, s_x, s_y, e_x, e_y, width=10, height=10, map=np.zeros((10, 10))):
