@@ -13,6 +13,5 @@ star = AStarAlgorithm(0, 0, 6, 3, width, height, my_map)
 
 
 if star.find_path():
-    print(star.map)
     print(star.path)
     print(star.actions)

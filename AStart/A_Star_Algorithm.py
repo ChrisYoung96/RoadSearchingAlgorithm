@@ -14,24 +14,24 @@ import numpy as np
 # map:地图数据，数据类型为np.array的二维整型数组，暂定0为可走的路，其他数字不可走
 class AStarAlgorithm:
     def __init__(self, s_x, s_y, e_x, e_y, width=10, height=10, map=np.zeros((10, 10))):
-        self.s_x = s_x
-        self.s_y = s_y
-        self.e_x = e_x
-        self.e_y = e_y
-        self.width = width
-        self.height = height
-        self.map = map
+        self.__s_x = s_x
+        self.__s_y = s_y
+        self.__e_x = e_x
+        self.__e_y = e_y
+        self.__width = width
+        self.__height = height
+        self.__map = map
 
-        self.open = []
-        self.close = []
+        self.__open = []
+        self.__close = []
         self.path = []  # 路径序列
         self.actions = []  # 动作序列
 
     # 验证坐标是否合法以及是否可走
     def __is_valid_coordinate(self, x, y):
-        if x < 0 or x >= self.width or y < 0 or y >= self.height:
+        if x < 0 or x >= self.__width or y < 0 or y >= self.__height:
             return False
-        return self.map[y, x] == 0
+        return self.__map[y, x] == 0
 
     # 获得当前坐标距离起点的距离G
     def __get_g(self, x1, y1, x2, y2):
@@ -40,14 +40,14 @@ class AStarAlgorithm:
 
     # 判断结点是否在close列表中
     def __node_in_close(self, node):
-        for item in self.close:
+        for item in self.__close:
             if node.x == item.x and node.y == item.y:
                 return True
             return False
 
     # 判断结点是否在open列表中，如果在，返回结点索引
     def __node_in_open(self, node):
-        for index, item in enumerate(self.open):
+        for index, item in enumerate(self.__open):
             if node.x == item.x and node.y == item.y:
                 return index
         return -1
@@ -69,26 +69,26 @@ class AStarAlgorithm:
                 continue
             index = self.__node_in_open(new_node)  # 否则判断该节点是否在open列表中
             if index != -1:  # 如果在
-                if self.open[index].G > new_node.G:  # 若因当前结点导致该节点到起点的距离更短
-                    self.open[index].parent = cur_node  # 更新该节点的父结点
-                    self.open[index].G = new_node.G  # 更新距离
+                if self.__open[index].G > new_node.G:  # 若因当前结点导致该节点到起点的距离更短
+                    self.__open[index].parent = cur_node  # 更新该节点的父结点
+                    self.__open[index].G = new_node.G  # 更新距离
                 continue
-            self.open.append(new_node)  # 若未探索且可走，加入open列表
+            self.__open.append(new_node)  # 若未探索且可走，加入open列表
 
     # 判断是否到终点
     def __is_end(self, node):
-        return node.x == self.e_x and node.y == self.e_y
+        return node.x == self.__e_x and node.y == self.__e_y
 
     # 采用“曼哈顿距离方法”计算H估计值，并计算F
     def __get_f(self, node):
-        return node.G + abs(self.e_x - node.x) + abs(self.e_y - node.y)
+        return node.G + abs(self.__e_x - node.x) + abs(self.__e_y - node.y)
 
     # 从当前结点的四周可走结点中选取最优的结点，作为下一步的方向
     def __get_min_node(self):
         min_f_node = None
         min_f = 100000
         min_index = -1
-        for index, item in enumerate(self.open):
+        for index, item in enumerate(self.__open):
             f = self.__get_f(item)
             if f <= min_f:
                 min_f_node = item
@@ -125,19 +125,19 @@ class AStarAlgorithm:
 
     # 计算路径并生成动作序列
     def find_path(self):
-        if not self.__is_valid_coordinate(self.s_x, self.s_y):
+        if not self.__is_valid_coordinate(self.__s_x, self.__s_y):
             return False
-        if not self.__is_valid_coordinate(self.e_x, self.e_y):
+        if not self.__is_valid_coordinate(self.__e_x, self.__e_y):
             return False
-        node = Node(None, self.s_x, self.s_y, 0)
+        node = Node(None, self.__s_x, self.__s_y, 0)
         while True:
             self.__extend_round(node)
-            if not self.open:
+            if not self.__open:
                 return False
             index, node = self.__get_min_node()
             if self.__is_end(node):
                 self.__make_path(node)
                 self.__make_action_sequence()
                 return True
-            self.close.append(node)
-            del self.open[index]
+            self.__close.append(node)
+            del self.__open[index]
